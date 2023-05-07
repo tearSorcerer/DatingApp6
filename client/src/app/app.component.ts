@@ -20,9 +20,18 @@ export class AppComponent implements OnInit{
 
   // ngx link: https://valor-software.com/ngx-bootstrap/#/documentation#getting-started
 
+  // --dry-run
+
   // Migrations
   // -- \API>dotnet ef migrations add UserPasswordAdded
   // -- \API>dotnet ef database update
+
+  // NOTE TO FUTURE SELF: 
+  // - for some reason the website doesnt work on edge...
+  // might have to do with localStorage. 
+
+  // Fun fact:
+  // if you use take(1), after the subscription has taken, it will unsubscribe 
 
   constructor(private accountService: AccountService) {}
 
