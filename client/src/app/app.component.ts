@@ -28,10 +28,12 @@ export class AppComponent implements OnInit{
 
   // NOTE TO FUTURE SELF: 
   // - for some reason the website doesnt work on edge...
-  // might have to do with localStorage. 
+  // might have to do with localStorage that has user auth info on it. 
 
   // Fun fact:
   // if you use take(1), after the subscription has taken, it will unsubscribe 
+
+  // for that answer you provided: 'ɵɵComponentDeclaration'
 
   constructor(private accountService: AccountService) {}
 
