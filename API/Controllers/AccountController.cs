@@ -6,6 +6,7 @@ using API.Entities;
 using API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace API.Controllers
 {
@@ -14,10 +15,14 @@ namespace API.Controllers
         private readonly DataContext _context;
 
         private readonly ITokenService _tokenService;
-        public AccountController(DataContext context, ITokenService TokenService)
+        private IUserRepository _userRepository;
+
+        public AccountController(DataContext context, ITokenService TokenService, IUserRepository userRepository)
         {
             _tokenService = TokenService;
             _context = context;
+            _userRepository = userRepository;
+
         }
 
         [HttpPost("register")] //POST // api/Account/register
@@ -37,10 +42,12 @@ namespace API.Controllers
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
+
+
             return new UserDto
             {
                 Username = user.UserName,
-                Token = _tokenService.CreateToken(user)
+                Token = _tokenService.CreateToken(user),
             };
         }
 
@@ -48,6 +55,7 @@ namespace API.Controllers
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
             var user = await _context.Users
+                .Include(p => p.Photos)
                 .SingleOrDefaultAsync(users => users.UserName == loginDto.Username.ToLower());
 
             if (user == null) return Unauthorized("invalid username");
@@ -61,10 +69,18 @@ namespace API.Controllers
                 if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("invalid password");
             }
 
+            // var currentUser = await _userRepository.GetMemberAsync(user.UserName);
+            
+
+            //var userObj = currentUser.Photos.FirstOrDefault(x => x.IsMain)?.Url;
+            //JsonConvert.SerializeObject().ToString();
+
             return new UserDto
             {
                 Username = user.UserName,
-                Token = _tokenService.CreateToken(user)
+                Token = _tokenService.CreateToken(user),
+                PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
+                // userObj
             };
         }
 
