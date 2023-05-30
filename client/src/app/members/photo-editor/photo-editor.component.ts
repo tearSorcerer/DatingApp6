@@ -33,6 +33,34 @@ export class PhotoEditorComponent implements OnInit {
     this.initializeUploader();
   }
 
+    initializeUploader() {
+    this.uploader = new FileUploader({
+      url: this.baseUrl + 'users/add-photo',
+      authToken: 'Bearer ' + this.user?.token,
+      isHTML5: true,
+      allowedFileType: ['image'],
+      removeAfterUpload: true,
+      autoUpload: false,
+      maxFileSize: 10 * 1024 * 1024,
+    });
+
+    this.uploader.onAfterAddingFile = (file) => {
+      file.withCredentials = false;
+    }
+
+    this.uploader.onSuccessItem = (item, response, status, headers) => {
+      if (response) {
+        const photo = JSON.parse(response);
+        this.member?.photos.push(photo)
+        if (photo.isMain && this.user && this.member) {
+          this.user.photoUrl = photo.url;
+          this.member.photoUrl = photo.url;
+          this.accountService.setCurrentUser(this.user);
+        }
+      }
+    }
+  }
+
   fileOverBase(e: any) {
     this.hasBaseDropZoneOver = e;
   }
@@ -65,27 +93,6 @@ export class PhotoEditorComponent implements OnInit {
     });
   }
 
-  initializeUploader() {
-    this.uploader = new FileUploader({
-      url: this.baseUrl + 'users/add-photo',
-      authToken: 'Bearer ' + this.user?.token,
-      isHTML5: true,
-      allowedFileType: ['image'],
-      removeAfterUpload: true,
-      autoUpload: false,
-      maxFileSize: 10 * 1024 * 1024,
-    });
 
-    this.uploader.onAfterAddingFile = (file) => {
-      file.withCredentials = false;
-    }
-
-    this.uploader.onSuccessItem = (item, response, status, headers) => {
-      if (response) {
-        const photo = JSON.parse(response);
-        this.member?.photos.push(photo)
-      }
-    }
-  }
 
 }

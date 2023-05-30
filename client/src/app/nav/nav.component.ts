@@ -17,12 +17,11 @@ export class NavComponent implements OnInit {
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.accountService.currentUser$.subscribe(
-      as => {
-        this.model = as;
-      }
-    )
-    
+    // this.accountService.currentUser$.subscribe(
+    //   as => {
+    //     this.model = as;
+    //   }
+    // )
   }
 
   login() {

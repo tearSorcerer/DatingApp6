@@ -35,13 +35,21 @@ export class AppComponent implements OnInit{
 
   // for that answer you provided: 'ɵɵComponentDeclaration'
 
+  // DOTNET VERSIONS: https://dotnet.microsoft.com/en-us/download/visual-studio-sdks
+
+  //  Upgrade dotnet versions:
+  // https://learn.microsoft.com/en-us/aspnet/core/migration/60-70?view=aspnetcore-7.0&tabs=visual-studio
+  // some useful commands:
+  //  - dotnet --list-sdks
+  //  - dotnet --version
+
+  // Filter out:
+  // -typeerror
   constructor(private accountService: AccountService) {}
 
   ngOnInit(): void {
     this.setCurrentUser();
   }
-
-
 
   setCurrentUser() {
     const userString = localStorage.getItem('user');
