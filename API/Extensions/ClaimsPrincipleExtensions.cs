@@ -11,13 +11,14 @@ namespace API.Extensions
 
         public static int GetUserId(this ClaimsPrincipal user)
         {
-            string value = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (int.TryParse(value, out int userId)) {
-                return userId;
-            }
-            else {
-                throw new InvalidOperationException("Unable to parse user ID.");
-            }
+            // string value = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            // if (int.TryParse(value, out int userId)) {
+            //     return userId;
+            // }
+            // else {
+            //     throw new InvalidOperationException("Unable to parse user ID.");
+            // }
+            return int.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value);
         }
     }
 }
