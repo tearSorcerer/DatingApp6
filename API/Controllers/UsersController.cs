@@ -13,8 +13,8 @@ namespace API.Controllers
     [Authorize]
     public class UsersController : BaseApiController
     {
-        private IUserRepository _userRepository;
-        private IMapper _mapper;
+        private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
         private readonly IPhotoService _photoService;
 
@@ -26,7 +26,6 @@ namespace API.Controllers
             _userRepository = userRepository;
         }
 
-        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<PagedList<MemberDto>>> GetUsers([FromQuery]UserParams userParams)
         {
