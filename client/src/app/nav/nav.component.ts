@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Observable, of } from 'rxjs';
-import { User } from '../_models/user';
 import { AccountService } from '../_services/account.service';
-import { ListsComponent } from '../lists/lists.component';
 
 @Component({
   selector: 'app-nav',
@@ -17,16 +14,14 @@ export class NavComponent implements OnInit {
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    // this.accountService.currentUser$.subscribe(
-    //   as => {
-    //     this.model = as;
-    //   }
-    // )
   }
 
   login() {
-    this.accountService.login(this.model).subscribe(response => {
-      this.router.navigateByUrl('/members');
+    this.accountService.login(this.model).subscribe({
+      next: _ => {
+        this.router.navigateByUrl('/members');
+        this.model = {};
+      }
     })
   }
 
