@@ -1,0 +1,11 @@
+.photos-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.photo-item {
+    flex: 0 0 calc(15% - 10px); /*can be adjusted as needed*/
+    margin-right: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}

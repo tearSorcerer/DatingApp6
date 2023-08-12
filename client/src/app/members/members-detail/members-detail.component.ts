@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   NgxGalleryAnimation,
@@ -19,7 +25,7 @@ import { PresenceService } from 'src/app/_services/presence.service';
   styleUrls: ['./members-detail.component.css'],
 })
 export class MembersDetailComponent implements OnInit, OnDestroy {
-  @ViewChild('memberTabs', {static: true}) memberTabs?: TabsetComponent;
+  @ViewChild('memberTabs', { static: true }) memberTabs?: TabsetComponent;
   member: Member = {} as Member;
   galleryOptions: NgxGalleryOptions[] = [];
   galleryImages: NgxGalleryImage[] = [];
@@ -28,34 +34,32 @@ export class MembersDetailComponent implements OnInit, OnDestroy {
   user?: User;
 
   constructor(
-                private route: ActivatedRoute,
-                private messageService: MessageService,
-                private accountService: AccountService,
-                private router: Router,
-                public presenceService: PresenceService
+    private route: ActivatedRoute,
+    private messageService: MessageService,
+    private accountService: AccountService,
+    private router: Router,
+    public presenceService: PresenceService
   ) {
     this.accountService.currentUser$.subscribe({
-      next: user => {
+      next: (user) => {
         if (user) this.user = user;
-      }
+      },
     });
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
-
   ngOnInit(): void {
     this.route.data.subscribe({
-      next: data => {
-        this.member = data['member']
-      }
-      }
-    );
+      next: (data) => {
+        this.member = data['member'];
+      },
+    });
 
     this.route.queryParams.subscribe({
       next: (params) => {
         params['tab'] && this.selectTab(params['tab']);
-      }})
-
+      },
+    });
 
     this.galleryOptions = [
       {
@@ -65,6 +69,7 @@ export class MembersDetailComponent implements OnInit, OnDestroy {
         thumbnailsColumns: 4,
         imageAnimation: NgxGalleryAnimation.Slide,
         preview: false,
+        imageDescription: true,
       },
     ];
 
@@ -99,18 +104,18 @@ export class MembersDetailComponent implements OnInit, OnDestroy {
   onTabActivated(data: TabDirective) {
     this.activeTab = data;
     if (this.activeTab.heading === 'Messages' && this.user) {
-      console.log('Connecting to hub', this.member.userName)
+      console.log('Connecting to hub', this.member.userName);
       this.messageService.createHubConnection(this.user, this.member.userName);
     } else {
       console.log('failed to connect to hub');
-      
+
       this.messageService.stopHubConnection();
     }
   }
 
   selectTab(heading: string) {
     if (this.memberTabs) {
-      this.memberTabs.tabs.find(x => x.heading === heading)!.active = true;
+      this.memberTabs.tabs.find((x) => x.heading === heading)!.active = true;
     }
   }
 }

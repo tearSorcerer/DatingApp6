@@ -11,9 +11,9 @@ namespace API.SignalR
     [Authorize]
     public class MessageHub : Hub
     {
-        private IMapper _mapper;
-        private IHubContext<PresenceHub> _presenceHub;
-        private IUnitOfWork _uow;
+        private readonly IMapper _mapper;
+        private readonly IHubContext<PresenceHub> _presenceHub;
+        private readonly IUnitOfWork _uow;
         public MessageHub(  
                             IMapper mapper,
                             IUnitOfWork uow,  

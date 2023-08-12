@@ -1,8 +1,8 @@
-using API.Data;
 using API.DTOs;
 using API.Entities;
 using API.Extensions;
 using API.Helpers;
+using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,9 +11,9 @@ namespace API.Controllers
     public class MessagesController : BaseApiController
     {
         private readonly IMapper _mapper;
-        public readonly UnitOfWork _uow;
+        private readonly IUnitOfWork _uow;
 
-        public MessagesController(  UnitOfWork uow,
+        public MessagesController(  IUnitOfWork uow,
                                     IMapper mapper) {
             _uow = uow;
             _mapper = mapper;

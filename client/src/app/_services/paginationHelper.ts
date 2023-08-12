@@ -25,4 +25,4 @@ export function getPaginationHeaders(pageNumber: number, pageSize: number) {
         params = params.append('pageNumber', pageNumber);
         params = params.append('pageSize', pageSize);
       return params;
-    }
+}

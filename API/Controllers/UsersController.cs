@@ -1,5 +1,3 @@
-using System.Security.Claims;
-using API.Data;
 using API.DTOs;
 using API.Entities;
 using API.Extensions;
@@ -19,7 +17,7 @@ namespace API.Controllers
         private readonly IPhotoService _photoService;
         private readonly IUnitOfWork _uow;
 
-        public UsersController(IUnitOfWork uow,
+        public UsersController( IUnitOfWork uow,
                                 IMapper mapper, 
                                 IPhotoService photoService)
         {
@@ -50,7 +48,8 @@ namespace API.Controllers
         [HttpGet("{username}")]
         public async Task<ActionResult<MemberDto>> GetUser(string username)
         {
-           return await _uow.UserRepository.GetMemberAsync(username);
+            AppUser loggedInUser = await _uow.UserRepository.GetUserByUsernameAsync(User.GetUsername());
+           return await _uow.UserRepository.GetMemberAsync(username, loggedInUser.UserName);
         }
 
         [HttpPut]
@@ -83,8 +82,6 @@ namespace API.Controllers
                 Url = result.SecureUrl.AbsoluteUri,
                 PublicId = result.PublicId
             };
-
-            if (user.Photos.Count == 0) photo.IsMain = true;
 
             user.Photos.Add(photo);
 
@@ -126,7 +123,7 @@ namespace API.Controllers
         {
             var user = await _uow.UserRepository.GetUserByUsernameAsync(User.GetUsername());
 
-            var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
+            var photo = await _uow.PhotosRepository.GetPhotoById(photoId);
 
             if (photo == null) return NotFound();
 

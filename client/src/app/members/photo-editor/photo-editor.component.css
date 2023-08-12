@@ -5,3 +5,29 @@
 input[type=file] {
     color: transparent
 }
+
+/* Container holding the image and the text */
+.container {
+    position: relative;
+    text-align: center;
+    color: white;
+  }
+  
+  /* Bottom left text */
+  .text {
+    position: absolute;
+    display: flex;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    font-size: medium;
+    font-weight: bold;
+    color: rgb(184, 15, 10);
+  }
+
+.reduceOpactity {
+  opacity: 0.2;
+}

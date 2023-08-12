@@ -19,20 +19,22 @@ namespace API.Data
             
         }
 
-        public async Task<MemberDto> GetMemberAsync(string username)
+        public async Task<MemberDto> GetMemberAsync(string username, string loggedInUser)
         {
-            // return await _context.Users // Manual Mapping
-            //     .Where(x => x.UserName == username)
-            //     .Select(user => new MemberDto {
-            //         Id = user.Id,
-            //         UserName = user.UserName,
-            //         KnownAs = user.KnownAs
-            //     }).SingleOrDefaultAsync();
-
-            return await _context.Users
+            if (loggedInUser == username)
+            {
+              return await _context.Users
+                .Where(x => x.UserName == username)
+                .IgnoreQueryFilters()
+                .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
+                .SingleOrDefaultAsync();
+            } else 
+            {
+              return await _context.Users
                 .Where(x => x.UserName == username)
                 .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
                 .SingleOrDefaultAsync();
+            }
         }
 
         public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
@@ -61,7 +63,9 @@ namespace API.Data
 
         public async Task<AppUser> GetUserByIdAsync(int id)
         {
-            return await _context.Users.FindAsync(id);
+            return await _context.Users
+            .Include(p => p.Photos)
+            .SingleOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<AppUser> GetUserByUsernameAsync(string username)
@@ -73,8 +77,7 @@ namespace API.Data
 
         public async Task<string> GetUserGender(string username)
         {
-            // var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == username);
-            // return user?.Gender;
+   
             return await _context.Users.Where(user => user.UserName == username)
                                 .Select(field => field.Gender)
                                 .SingleOrDefaultAsync();
