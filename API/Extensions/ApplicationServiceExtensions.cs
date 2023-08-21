@@ -5,6 +5,7 @@ using API.Services;
 using API.SignalR;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace API.Extensions
 {
     public static class ApplicationServiceExtensions
@@ -12,10 +13,6 @@ namespace API.Extensions
         public static IServiceCollection AddApplicationServices(this IServiceCollection services,
             IConfiguration config)
         {
-            services.AddDbContext<DataContext>(opt =>
-            {
-                opt.UseSqlite(config.GetConnectionString("DefaultConnectionstring"));
-            });
 
             services.AddCors();
             services.AddScoped<ITokenService, TokenService>();
