@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for tear-datingapp on 2023-08-20T15:36:32+02:00
+# fly.toml app configuration file generated for tear-datingapp on 2023-08-22T22:35:31+02:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -10,9 +10,9 @@ primary_region = "jnb"
   image = "tearsorcerer/datingapp:latest"
 
 [env]
-  ASPNETCORE_URLS="http://+:8080"
-  CloudinarySettings__CloudName="dfjvrsvka"
-  CloudinarySettings__ApiKey="312148143311395"
+  ASPNETCORE_URLS = "http://+:8080"
+  CloudinarySettings__ApiKey = "312148143311395"
+  CloudinarySettings__CloudName = "dfjvrsvka"
 
 [http_service]
   internal_port = 8080
