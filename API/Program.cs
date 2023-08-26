@@ -18,7 +18,7 @@ builder.Services.AddIdentityServices(builder.Configuration);
 
 var connString = "";
 if (builder.Environment.IsDevelopment()) 
-    connString = builder.Configuration.GetConnectionString("DefaultConnection");
+    connString = builder.Configuration.GetConnectionString("DefaultConnectionstring");
 else 
 {
 // Use connection string provided at runtime by Fly.io.
