@@ -29,7 +29,7 @@ else
         var pgUserPass = connUrl.Split("@")[0];
         var pgHostPortDb = connUrl.Split("@")[1];
         var pgHostPort = pgHostPortDb.Split("/")[0];
-        var pgDb = pgHostPortDb.Split("/")[1].Split("?")[0]; // Split on "?" to remove any parameters
+        var pgDb = pgHostPortDb.Split("/")[1].Split("?")[0]; // Split on "?" to remove the ssl thing
         var pgUser = pgUserPass.Split(":")[0];
         var pgPass = pgUserPass.Split(":")[1];
         var pgHost = pgHostPort.Split(":")[0];
